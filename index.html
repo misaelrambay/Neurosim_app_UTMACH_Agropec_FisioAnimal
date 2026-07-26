@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador SNA - Fisiología Animal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="calm-mode">
+    <div id="landingPage">
+        <div class="landing-nav-links">
+            <a href="#" class="nav-link-btn" onclick="event.preventDefault(); initQuiz()">Cuestionario</a>
+            <a href="#" class="nav-link-btn" onclick="event.preventDefault(); initEval()">Evaluación</a>
+        </div>
+        <h1 class="text-gradient" style="font-size: 3.5rem; margin-bottom: 24px; font-family: 'Outfit', sans-serif;">
+            Bienvenidos a NeuroSim
+            <br>
+            <span style="font-size: 2rem; color: var(--text-secondary);">Sistema Nervioso Autónomo</span>
+        </h1>
+
+        <div class="collage-grid fade-in">
+            <div class="image-wrapper">
+                <img src="assets/bovine.png" alt="Bovino">
+                <div class="image-overlay">
+                    <div class="overlay-title">Bovino (Carne/Leche)</div>
+                    <div class="overlay-data">
+                        GMD (Carne): 1.6 kg/día<br>
+                        Leche: 35 L/día<br>
+                        CMS: 12.5 - 22 kg/día
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-wrapper">
+                <img src="assets/porcine.png" alt="Porcino">
+                <div class="image-overlay">
+                    <div class="overlay-title">Porcino (Engorde)</div>
+                    <div class="overlay-data">
+                        Ganancia: 0.95 kg/día<br>
+                        Consumo: 2.8 kg/día<br>
+                        Alta susceptibilidad térmica
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-wrapper">
+                <img src="assets/goat.png" alt="Caprino">
+                <div class="image-overlay">
+                    <div class="overlay-title">Caprino (Leche/Carne)</div>
+                    <div class="overlay-data">
+                        Prod.: 2.5 kg o L/día<br>
+                        CMS: 1.8 kg/día<br>
+                        Gran capacidad de adaptación
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-wrapper">
+                <img src="assets/sheep.png" alt="Ovino">
+                <div class="image-overlay">
+                    <div class="overlay-title">Ovino</div>
+                    <div class="overlay-data">
+                        GMD: 0.25 kg/día<br>
+                        CMS: 1.5 kg/día<br>
+                        Sensible a estrés por manejo
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-wrapper">
+                <img src="assets/poultry.png" alt="Aves">
+                <div class="image-overlay">
+                    <div class="overlay-title">Aves (Pollo Engorde)</div>
+                    <div class="overlay-data">
+                        Ganancia: 85 g/día<br>
+                        Consumo: 160 g/día<br>
+                        Metabolismo muy acelerado
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sna-explanation fade-in" style="animation-delay: 0.2s; animation-fill-mode: both;">
+            <h2 style="color: var(--accent-calm); margin-bottom: 16px; font-size: 1.8rem;">¿Qué es el SNA?</h2>
+            El <strong>Sistema Nervioso Autónomo</strong> regula las funciones corporales involuntarias y se divide en
+            dos ramás principales:
+            el <strong>Simpático</strong> (prepara al animal para situaciones de estrés, lucha o huida) y el
+            <strong>Parasimpático</strong> (promueve el descanso, la digestión y el anabolismo).
+            <br><br>
+            Comprender el balance entre ambas vías es fundamental para garantizar el bienestar animal y optimizar el
+            rendimiento productivo.
+        </div>
+
+        <div class="hari-character fade-in"
+            style="animation-delay: 0.3s; animation-fill-mode: both; margin: 24px auto 32px; max-width: 550px; align-items: stretch; justify-content: center; animation: fadeSlideUp 1s ease forwards; gap: 16px;">
+            <div class="hari-avatar" style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <img src="assets/hari.png" alt="Hari"
+                    style="width: 100%; max-height: 200px; object-fit: contain; animation: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));">
+            </div>
+            <div class="hari-bubble"
+                style="flex: 1; padding: 12px 18px; font-size: 0.95rem; margin-top: 0; margin-left: 0; animation: none; transform: none; opacity: 1; text-align: left; display: flex; flex-direction: column; justify-content: center;">
+                <span class="hari-name" style="font-size: 0.8rem; margin-bottom: 4px;">Hari</span>
+                ¡Hola! 👋 Soy Hari, un gato naranja muy curioso, y voy a ser tu compañero de aprendizaje.
+                <br><br>
+                Presiona el botón de abajo para empezar a explorar juntos.
+            </div>
+        </div>
+
+        <button id="btnStart" class="btn-start fade-in"
+            style="animation-delay: 0.4s; animation-fill-mode: both; background: var(--accent-calm); color: white; border: none; padding: 16px 40px; font-size: 1.2rem; cursor: pointer; border-radius: var(--radius-pill); box-shadow: 0 8px 24px rgba(123, 160, 91, 0.4); transition: transform 0.2s;" onclick="showScreen('levelSelectScreen')">Iniciar</button>
+    </div>
+
+
+    <!-- LEVEL SELECTION SCREEN -->
+    <div id="levelSelectScreen" class="screen-overlay">
+        <button class="btn-back-nav" onclick="showScreen('landingPage')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m15 18-6-6 6-6" />
+            </svg>
+            Volver
+        </button>
+        <h1 class="text-gradient" style="font-size: 2.8rem; margin-bottom: 8px; font-family: 'Outfit', sans-serif;">
+            Escoge tu Nivel de Dificultad</h1>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 0;">Selecciona el nivel que mejor se
+            adapte a tu experiencia.</p>
+        <div class="level-cards-row">
+            <div class="level-card" onclick="showScreen('hariGameScreen'); initHariGame();">
+                <span class="level-icon">🌱</span>
+                <div class="level-title">Principiante</div>
+                <div class="level-desc">Aprende jugando con Hari y Packy. Ideal para quienes comienzan a explorar el
+                    Sistema Nervioso Autónomo.</div>
+            </div>
+            <div class="level-card" onclick="showScreen('specialtyScreen')">
+                <span class="level-icon">🔬</span>
+                <div class="level-title">Experto</div>
+                <div class="level-desc">Simulador completo con datos fisiológicos detallados y terminología técnica
+                    avanzada.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPECIALTY SELECTION SCREEN -->
+    <div id="specialtyScreen" class="screen-overlay">
+        <button class="btn-back-nav" onclick="showScreen('levelSelectScreen')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m15 18-6-6 6-6" />
+            </svg>
+            Volver
+        </button>
+        <h1 class="text-gradient" style="font-size: 2.8rem; margin-bottom: 8px; font-family: 'Outfit', sans-serif;">
+            Selecciona tu Especialidad</h1>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 0;">Elige el enfoque que corresponda a
+            tu área de estudio.</p>
+        <div class="level-cards-row">
+            <div class="level-card" onclick="startExpertMode('vet')">
+                <span class="level-icon">🩺</span>
+                <div class="level-title">Veterinaria</div>
+                <div class="level-desc">Terminología clínica, receptores farmacológicos, neuroanatomía y respuestas
+                    autonómicas con enfoque médico.</div>
+            </div>
+            <div class="level-card" onclick="startExpertMode('agro')">
+                <span class="level-icon">🌿</span>
+                <div class="level-title">Agropecuaria</div>
+                <div class="level-desc">Impacto del SNA en la producción animal, consumo de materia seca, ganancia de
+                    peso y bienestar en hacienda.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HARI GAME SCREEN -->
+    <div id="hariGameScreen">
+        <div class="game-header">
+            <button class="btn-back-nav" style="margin-bottom:0" onclick="exitHariGame()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m15 18-6-6 6-6" />
+                </svg>
+                Salir
+            </button>
+            <div class="game-title-bar">🐱 El Diagnóstico de Hari</div>
+            <div class="game-progress" id="gameProgress"></div>
+        </div>
+        <div class="game-scene" id="gameScene"></div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quizScreen">
+        <div class="game-header">
+            <button class="btn-back-nav" style="margin-bottom:0" onclick="exitQuiz()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m15 18-6-6 6-6" />
+                </svg>
+                Salir
+            </button>
+            <div class="game-title-bar">📝 Cuestionario SNA</div>
+            <div class="game-progress" id="quizProgress"></div>
+        </div>
+        <div class="game-scene" id="quizScene"></div>
+    </div>
+
+    <!-- EVALUATION SCREEN -->
+    <div id="evalScreen">
+        <div class="game-header">
+            <button class="btn-back-nav" style="margin-bottom:0" onclick="exitEval()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m15 18-6-6 6-6" />
+                </svg>
+                Salir
+            </button>
+            <div class="game-title-bar">🎓 Evaluación SNA</div>
+            <div class="eval-timer" id="evalTimerDisplay" style="display:none">20:00</div>
+            <div class="game-progress" id="evalProgress"></div>
+        </div>
+        <div class="game-scene" id="evalScene"></div>
+    </div>
+
+    <div id="appContainer" class="app-container"
+        style="display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; position: relative;">
+
+        <button id="btnBackToHome" class="btn-secondary"
+            style="position: fixed; bottom: 20px; left: 20px; padding: 12px 20px; display: flex; align-items: center; gap: 8px; z-index: 1000; font-family: 'Inter', sans-serif;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m15 18-6-6 6-6" />
+            </svg>
+            Volver al Inicio
+        </button>
+
+        <header style="text-align: center; margin-bottom: 40px;" class="fade-in">
+            <h1 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 16px;">
+                Sistema Nervioso Autónomo
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                Simulador del impacto de la respuesta Simpática vs Parasimpática en la fisiología y
+                productividadíanimal.
+            </p>
+        </header>
+
+        <section class="glass-panel fade-in"
+            style="margin-bottom: 32px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <label style="font-weight: 600; color: var(--text-secondary);">Especie:</label>
+                <select id="speciesSelect"
+                    style="background: var(--bg-color-calm); color: var(--text-primary); border: 1px solid var(--border-calm); padding: 12px 20px; border-radius: var(--radius-pill); font-size: 1rem; outline: none; cursor: pointer; font-family: 'Inter', sans-serif; box-shadow: var(--shadow-soft);">
+                    <!-- Options injected by JS -->
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 16px;">
+                <button id="btnCalm" class="action-btn btn-calm active">
+                    Ambiente Tranquilo (Parasimpático)
+                </button>
+                <button id="btnStress" class="action-btn btn-stress">
+                    Evento Estresante (Simpático)
+                </button>
+            </div>
+        </section>
+
+        <div class="dashboard-grid">
+
+            <div class="glass-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h3 style="font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" class="heart-icon-title">
+                            <path
+                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg> Frecuencia Cardíaca
+                    </h3>
+                    <span id="hrStatus"
+                        style="font-size: 0.875rem; color: var(--text-secondary); padding: 6px 12px; background: var(--bg-color-calm); border-radius: var(--radius-pill); border: 1px solid var(--border-calm);">Basal</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px 0;">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"
+                        stroke-width="1" class="heart-icon" id="heartSvg">
+                        <path
+                            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    </svg>
+                    <div id="hrValueContainer" class="stat-value calm-text">
+                        <span id="hrValue">65</span> <span style="font-size: 1.5rem; font-weight: 500;">LPM</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h3
+                        style="font-size: 1.25rem; display: flex; align-items: center; gap: 8px; color: var(--text-primary);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)"
+                            stroke-width="2">
+                            <path d="m11 12 1.5 1.5 3.5-3.5" />
+                            <path d="M4 14.5a8 8 0 1 0 16 0c0-4-3-8-8-12-5 4-8 8-8 12Z" />
+                        </svg> Fisiología Interna
+                    </h3>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div id="motilityPanel"
+                        style="padding: 16px; background: var(--bg-color-calm); border-radius: 16px; border-left: 4px solid var(--accent-calm); transition: var(--transition-smooth);">
+                        <h4 style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 8px;">Motilidad
+                            Digestiva</h4>
+                        <p id="motilityValue" style="font-weight: 500; font-size: 1.1rem; color: var(--text-primary);">
+                        </p>
+                    </div>
+
+                    <div id="bloodFlowPanel"
+                        style="padding: 16px; background: var(--bg-color-calm); border-radius: 16px; border-left: 4px solid var(--accent-calm); transition: var(--transition-smooth);">
+                        <h4 style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 8px;">Flujo
+                            Sanguíneo</h4>
+                        <p id="bloodFlowValue" style="font-weight: 500; font-size: 1.1rem;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h3
+                        style="font-size: 1.25rem; display: flex; align-items: center; gap: 8px; color: var(--text-primary);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)"
+                            stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                        </svg> Impacto Productivo
+                    </h3>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 20px; height: 100%;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-calm);">
+                        <div>
+                            <h4 id="intakeLabel"
+                                style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 4px;">Consumo
+                            </h4>
+                            <div style="font-size: 1.5rem; font-weight: 600;">
+                                <span id="intakeValue"></span> <span id="intakeUnit"
+                                    style="font-size: 1rem; color: var(--text-secondary);"></span>
+                            </div>
+                        </div>
+                        <div id="intakeIconContainer">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-calm)"
+                                stroke-width="2">
+                                <path d="M7 7h10v10" />
+                                <path d="M7 17 17 7" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 id="gainLabel"
+                                style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 4px;">Ganancia
+                            </h4>
+                            <div style="font-size: 1.5rem; font-weight: 600;">
+                                <span id="gainValue"></span> <span id="gainUnit"
+                                    style="font-size: 1rem; color: var(--text-secondary);"></span>
+                            </div>
+                        </div>
+                        <div id="gainIconContainer">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-calm)"
+                                stroke-width="2">
+                                <path d="M7 7h10v10" />
+                                <path d="M7 17 17 7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hari-character" id="expertHariContainer" style="margin-top: 32px; animation: none;">
+            <div class="hari-avatar">
+                <img src="assets/hari.png" class="hari-img" alt="Hari">
+            </div>
+            <div class="hari-bubble" style="max-width: none; width: 100%;">
+                <span class="hari-name">Hari</span>
+                <div id="expertHariExplanation"
+                    style="font-size: 1.05rem; line-height: 1.6; color: var(--text-primary);">
+                    <!-- Updated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="quiz_data.js"></script>
+    <script src="quiz_eval.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
